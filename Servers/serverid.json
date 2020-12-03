@@ -1,1 +1,6 @@
-
+{
+  "owner_id": "OWNER ID HERE",
+  "server_id": "SERVER ID HERE",
+  "premium_began": "PREMIUM BEGAN DATE HERE",
+  "premium_ends": "PREMIUM END DATE HERE"
+}
