@@ -4,6 +4,7 @@ Kusuo is a Discord bot that I use for setting up premium servers for my other bo
 # Requirements
 * Python 3.7 or above
 * Discord.py 1.5 or above
+
 You might be able to lower then these requirements, but the code might not work as intended
 
 # Please Read
