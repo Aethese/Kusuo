@@ -23,14 +23,15 @@ async def on_ready():
   await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=""))
   print("Bot is online!")
 
-@bot.check # this returns an error if you have an else statement in the @bot.event at the way top. i don't know why, or care to be honest
-async def globally_block_dms(ctx):
-    return ctx.guild is not None
-
 @bot.command(aliases=['logout'])
 @commands.check(is_owner)
 async def shutdown(ctx):
     await ctx.send("Shutting down...")
     await bot.logout()
+
+@bot.command()
+@commands.cooldown(1, 5, commands.BucketType.user)
+async def setup(ctx, key, serverid):
+    f = open("{0}.json", "W+")
 
 bot.run(token)
