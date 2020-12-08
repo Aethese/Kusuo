@@ -31,7 +31,12 @@ async def shutdown(ctx):
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
-async def setup(ctx, key, serverid):
-    f = open("{0}.json", "W+")
+async def setup(ctx, key): # setup in server
+    #
+
+@bot.command()
+@commands.cooldown(1, 5, commands.BucketType.user)
+async def claim(ctx, key, serverid): # claim in dm
+    #
 
 bot.run(token)
