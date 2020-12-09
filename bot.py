@@ -2,7 +2,7 @@ import datetime
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='/')
+bot = commands.Bot(command_prefix='$')
 token = "insert your token here"
 
 async def is_owner(ctx): # Not really that well setup for easy use because most commands can be used by one person only. Maybe will make it more easy to setup in the future.
@@ -37,10 +37,10 @@ async def setup(ctx, key): # setup in server
             await ctx.send("You can not claim another server (how are you able to type here...)")
         else:
             file = open("keys.txt", "w")
-            await ctx.author.send("")
-            file.close() # we want to close it, trust me
+            await ctx.author.send("{} is your premium key! Please respond to this message with $claim your_key your_server_id to setup your premium server".format(file.readline()))
+            file.close() # we want to close it to free up system resources
             
-            await ctx.send("Check your DMs {} for further info").format(ctx.author.name)
+            await ctx.send("Check your DMs {} for further info".format(ctx.author.name))
             member = ctx.message.author
             role = get(member.server.roles, name="Claimed")
             await bot.add_roles(member, role) # this gives the command, but will remove it after a month (once i add that feature)
@@ -54,5 +54,10 @@ async def claim(ctx, key, serverid): # claim in dm
         #
     else:
         await ctx.send("This command can only be used in DMs") # You can also just pass this command too
+
+@bot.command()
+@commands.check(is_owner)
+async def addkey(ctx): # the owner can add keys with this simple command
+    #
 
 bot.run(token)
