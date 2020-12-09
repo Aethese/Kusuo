@@ -32,11 +32,19 @@ async def shutdown(ctx):
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def setup(ctx, key): # setup in server
-    #
+    if ctx.channel.id == '':
+        
+    if ctx.author.has_role("Claimed"):
+        await ctx.send("You can not claim another server (how are you able to type here...)")
+    await ctx.author.send("")
+    await ctx.send("Check your DMs for further info")
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def claim(ctx, key, serverid): # claim in dm
-    #
+    if isinstance(ctx.channel, discord.channel.DMChannel):
+        #
+    elif:
+        await ctx.send("This command can only be used in DMs")
 
 bot.run(token)
