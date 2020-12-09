@@ -32,19 +32,27 @@ async def shutdown(ctx):
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def setup(ctx, key): # setup in server
-    if ctx.channel.id == '':
-        
-    if ctx.author.has_role("Claimed"):
-        await ctx.send("You can not claim another server (how are you able to type here...)")
-    await ctx.author.send("")
-    await ctx.send("Check your DMs for further info")
+    if ctx.channel.id == '786305794874408960': # i have this setup so you can only use the command in a certain channel and without a certain role
+        if ctx.author.has_role("Claimed"): # the channel doesn't allow people with this role to send messages in the channel, but just in case :)
+            await ctx.send("You can not claim another server (how are you able to type here...)")
+        else:
+            file = open("keys.txt", "w")
+            await ctx.author.send("")
+            file.close() # we want to close it, trust me
+            
+            await ctx.send("Check your DMs {} for further info").format(ctx.author.name)
+            member = ctx.message.author
+            role = get(member.server.roles, name="Claimed")
+            await bot.add_roles(member, role) # this gives the command, but will remove it after a month (once i add that feature)
+    else: # if the channel id isn't the one above, the command gets ignored
+        pass
 
-@bot.command()
+@bot.command(description="Claim your premium server through DMs with a key given to you with the 'setup' command")
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def claim(ctx, key, serverid): # claim in dm
     if isinstance(ctx.channel, discord.channel.DMChannel):
         #
-    elif:
-        await ctx.send("This command can only be used in DMs")
+    else:
+        await ctx.send("This command can only be used in DMs") # You can also just pass this command too
 
 bot.run(token)
