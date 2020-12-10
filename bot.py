@@ -31,7 +31,7 @@ async def shutdown(ctx):
 
 @bot.command(description="Get your premium key", aliases=["getkey", "get-key"])
 @commands.cooldown(1, 5, commands.BucketType.user)
-async def setup(ctx, key): # setup in server
+async def setup(ctx): # setup in server
     if ctx.channel.id == '786305794874408960': # i have this setup so you can only use the command in a certain channel and without a certain role
         if ctx.author.has_role("Claimed"): # the channel doesn't allow people with this role to send messages in the channel, but just in case :)
             await ctx.send("You can not claim another server (how are you able to type here...)")
