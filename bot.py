@@ -1,4 +1,5 @@
 import datetime
+from dateutil.relativedelta import relativedelta
 import discord
 from discord.ext import commands
 
@@ -59,19 +60,15 @@ async def claim(ctx, key, serverid): # claim in dm
                 for i in d:
                      if i != line: # finds the key
                         file.write(i) # writes the key out
-                f = open("{}.json".format(serverid), "w+")
+                f = open("{}.txt".format(serverid), "w+") # make the file with the serverid as the name
                 f.write("{}\n".format(serverid)) # server id for first line
                 z = datetime.datetime.now()
                 x = x.strftime("%x")
                 f.write("{}\n".format(x)) # the date it started for second line
-                m = x.strftime("%m")
-                m = m + 1
-                if m == 13:
-                    m = 1
-                w = x.strftime("%d")
-                y = x.strftime("%Y")
-                l = m+"/"+w+"/"+y
-                f.write("{}\n".format(l)) # the date it ends for third line
+                m = relativedelta(months=1) # this method is very handy, previous versions of adding a month was several lines longer and didn't work. importing relativedelta is at line 2
+                c = z + m # add the dates together
+                f.write("{}\n".format(c)) # the date it ends
+                f.close() # file made :)
                 file.close()
             else:
                 await.ctx.send("Your key, {}, doesn't match any current keys.".format(key)) # tell the user that their key doesn't work
@@ -82,7 +79,7 @@ async def claim(ctx, key, serverid): # claim in dm
 @bot.command()
 @commands.check(is_owner)
 async def addkey(ctx): # the owner can add keys with this simple command
-    #
+    # WIP lol
 
 @bot.command(aliases=['patreon', 'premium', 'patron']) # just got to plug the patreon page
 @commands.cooldown(1, 5, commands.BucketType.user)
