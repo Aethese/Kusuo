@@ -30,7 +30,7 @@ async def shutdown(ctx):
     await bot.logout()
 
 @bot.command(description="Get your premium key", aliases=["getkey", "get-key"])
-@commands.cooldown(1, 5, commands.BucketType.user)
+@commands.cooldown(1, 10, commands.BucketType.guild) # don't want multiple people using this command at once, that could be problematic
 async def setup(ctx): # setup in server
     if ctx.channel.id == '786305794874408960': # i have this setup so you can only use the command in a certain channel and without a certain role
         if ctx.author.has_role("Claimed"): # the channel doesn't allow people with this role to send messages in the channel, but just in case :)
@@ -39,27 +39,35 @@ async def setup(ctx): # setup in server
             file = open("keys.txt", "r+")
             k = file.readline() # the key
             await ctx.author.send("{} is your premium key! Please respond to this message with $claim your_key your_server_id to setup your premium server".format(k)) # send the instructions + key to the author
-            f.seek(0) # reset the file to read the first line again
-            d = file.readlines() # gets all of the keys
-            for i in d:
-                if i != k: # finds the key
-                    f.write(i) # writes the key out
+            ### the code below will delete the key, I commented it out so I can reuse for later use, because it doesn't work here ###
+            #f.seek(0) # reset the file to read the first line again (AKA the key the user got)
+            #d = file.readlines() # gets all of the keys
+            #for i in d:
+               # if i != k: # finds the key
+                    #f.write(i) # writes the key out
             file.close() # we want to close it to free up system resources
             
             await ctx.send("Check your DMs {} for further info".format(ctx.author.name))
             member = ctx.message.author
             role = get(member.server.roles, name="Claimed")
-            await bot.add_roles(member, role) # this gives the command, but will remove it after a month (once i add that feature)
+            await bot.add_roles(member, role) # this gives the role, but will remove it after a month (once i figure out how to do that)
     else: # if the channel id isn't the one above, the command gets ignored
         pass
 
 @bot.command(description="Claim your premium server through DMs with a key given to you with the 'setup' command")
-@commands.cooldown(1, 5, commands.BucketType.user)
+@commands.cooldown(1, 10, commands.BucketType.default) # have it on global cooldown so multiple people don't claim with one key on accident. their is probably a better way of handling this, but I won't need a complicated method for my nonpopular bot
 async def claim(ctx, key, serverid): # claim in dm
     if isinstance(ctx.channel, discord.channel.DMChannel):
-        #
+        file = open("keys.txt", "r").readlines()
+        for lines in file:
+            if lines == key:
+                await ctx.send("it matches a key") # temp answer
+                file.close()
+            else:
+                await.ctx.send("Your key, {}, doesn't match any current keys.".format(key)) # tell the user that their key doesn't work
+                file.close()
     else:
-        await ctx.send("This command can only be used in DMs") # You can also just pass this command too
+        await ctx.send("This command can only be used in DMs") # you can also just pass this command too
 
 @bot.command()
 @commands.check(is_owner)
