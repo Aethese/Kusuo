@@ -6,7 +6,7 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix='$')
 token = "insert your token here"
 
-async def is_owner(ctx): # Not really that well setup for easy use because most commands can be used by one person only. Maybe will make it more easy to setup in the future.
+async def is_owner(ctx):
     return ctx.author.id == 424596008954232833 # You should probably put your owner id here
 
 @bot.event
