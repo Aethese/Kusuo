@@ -39,14 +39,7 @@ async def setup(ctx): # setup in server
             file = open("keys.txt", "r+")
             k = file.readline() # the key
             await ctx.author.send("{} is your premium key! Please respond to this message with $claim your_key your_server_id to setup your premium server".format(k)) # send the instructions + key to the author
-            ### the code below will delete the key, I commented it out so I can reuse for later use, because it doesn't work here ###
-            #f.seek(0) # reset the file to read the first line again (AKA the key the user got)
-            #d = file.readlines() # gets all of the keys
-            #for i in d:
-               # if i != k: # finds the key
-                    #f.write(i) # writes the key out
             file.close() # we want to close it to free up system resources
-            
             await ctx.send("Check your DMs {} for further info".format(ctx.author.name))
             member = ctx.message.author
             role = get(member.server.roles, name="Claimed")
@@ -58,10 +51,27 @@ async def setup(ctx): # setup in server
 @commands.cooldown(1, 10, commands.BucketType.default) # have it on global cooldown so multiple people don't claim with one key on accident. their is probably a better way of handling this, but I won't need a complicated method for my nonpopular bot
 async def claim(ctx, key, serverid): # claim in dm
     if isinstance(ctx.channel, discord.channel.DMChannel):
-        file = open("keys.txt", "r").readlines()
-        for lines in file:
-            if lines == key:
-                await ctx.send("it matches a key") # temp answer
+        file = open("keys.txt", "r")
+        for line in file:
+            line = line.rstrip()
+            if key == line:
+                file.seek(0) # reset the file to read the first line again (AKA the key the user got)
+                for i in d:
+                     if i != line: # finds the key
+                        file.write(i) # writes the key out
+                f = open("{}.json".format(serverid), "w+")
+                f.write("{}\n".format(serverid)) # server id for first line
+                z = datetime.datetime.now()
+                x = x.strftime("%x")
+                f.write("{}\n".format(x)) # the date it started for second line
+                m = x.strftime("%m")
+                m = m + 1
+                if m == 13:
+                    m = 1
+                w = x.strftime("%d")
+                y = x.strftime("%Y")
+                l = m+"/"+w+"/"+y
+                f.write("{}\n".format(l)) # the date it ends for third line
                 file.close()
             else:
                 await.ctx.send("Your key, {}, doesn't match any current keys.".format(key)) # tell the user that their key doesn't work
