@@ -57,6 +57,7 @@ async def claim(ctx, key, serverid): # claim in dm
             line = line.rstrip()
             if key == line:
                 file.seek(0) # reset the file to read the first line again (AKA the key the user got)
+                d = file.readlines()
                 for i in d:
                      if i != line: # finds the key
                         file.write(i) # writes the key out
