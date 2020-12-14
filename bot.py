@@ -17,7 +17,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'This command is on cooldown. Please wait {error.retry_after:.2f}s')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send('You do not have the permissions to use this command.')
+        await ctx.send('You do not have the permissions to use this command')
 
 @bot.event
 async def on_ready():
@@ -52,7 +52,7 @@ async def setup(ctx): # setup in server
 @commands.cooldown(1, 10, commands.BucketType.default) # have it on global cooldown so multiple people don't claim with one key on accident. their is probably a better way of handling this, but I won't need a complicated method for my nonpopular bot
 async def claim(ctx, key, serverid): # claim in dm
     if isinstance(ctx.channel, discord.channel.DMChannel):
-        file = open("keys.txt", "r")
+        file = open("keys.txt", "r+")
         for line in file:
             line = line.rstrip()
             if key == line:
@@ -62,13 +62,13 @@ async def claim(ctx, key, serverid): # claim in dm
                      if i != line: # finds the key
                         file.write(i) # writes the key out
                 f = open("{}.txt".format(serverid), "w+") # make the file with the serverid as the name
-                f.write("{}\n".format(serverid)) # server id for first line
+                f.write("{} \n".format(serverid)) # server id for first line
                 z = datetime.datetime.now()
                 x = x.strftime("%x")
                 f.write("{}\n".format(x)) # the date it started for second line
                 m = relativedelta(months=1) # this method is very handy, previous versions of adding a month was several lines longer and didn't work. importing relativedelta is at line 2
                 c = z + m # add the dates together
-                f.write("{}\n".format(c)) # the date it ends
+                f.write("{} \n".format(c)) # the date it ends
                 f.close() # file made :)
                 file.close()
             else:
@@ -77,10 +77,13 @@ async def claim(ctx, key, serverid): # claim in dm
     else:
         await ctx.send("This command can only be used in DMs") # you can also just pass this command too
 
-@bot.command()
+@bot.command(aliases=['keyadd', 'add-key'])
 @commands.check(is_owner)
-async def addkey(ctx): # the owner can add keys with this simple command
-    # WIP lol
+async def addkey(ctx, key): # the owner can add keys with this simple command
+    file = open("keys.txt", "a")
+    k = key+" \n"
+    file.write(k)
+    file.close() # very simple command :)
 
 @bot.command(aliases=['patreon', 'premium', 'patron']) # just got to plug the patreon page
 @commands.cooldown(1, 5, commands.BucketType.user)
