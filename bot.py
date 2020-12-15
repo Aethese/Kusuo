@@ -14,10 +14,16 @@ async def on_command_error(ctx, error):
     send_help = (commands.MissingRequiredArgument, commands.BadArgument, commands.TooManyArguments, commands.UserInputError)
     if isinstance(error, commands.CommandNotFound):
         await ctx.send("I don't understand...")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Bad argument")
     elif isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'This command is on cooldown. Please wait {error.retry_after:.2f}s')
     elif isinstance(error, commands.MissingPermissions):
         await ctx.send('You do not have the permissions to use this command')
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Missing argument: {}".format(error.param))
+    else:
+        print(''.join(traceback.format_exception(type(error), error, error.__traceback__)))
 
 @bot.event
 async def on_ready():
