@@ -30,7 +30,7 @@ async def on_ready():
   await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="anime"))
   print("Bot is online!")
 
-@bot.command(aliases=['logout'])
+@bot.command(aliases=['logout'], hidden=True)
 @commands.check(is_owner)
 async def shutdown(ctx):
     await ctx.send("Shutting down...")
@@ -83,7 +83,7 @@ async def claim(ctx, key, serverid): # claim in dm
     else:
         await ctx.send("This command can only be used in DMs") # you can also just pass this command too
 
-@bot.command(aliases=['keyadd', 'add-key'])
+@bot.command(aliases=['keyadd', 'add-key'], hidden=True)
 @commands.check(is_owner)
 async def addkey(ctx, key): # the owner can add keys with this simple command
     file = open("keys.txt", "a")
