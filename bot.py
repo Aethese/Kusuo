@@ -19,7 +19,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f'This command is on cooldown. Please wait {error.retry_after:.2f}s')
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send('You do not have the permissions to use this command')
+        await ctx.send('You do not have permission to use this command')
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("Missing argument: {}".format(error.param))
     else:
