@@ -22,8 +22,6 @@ async def on_command_error(ctx, error):
         await ctx.send('You do not have permission to use this command')
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("Missing argument: {}".format(error.param))
-    else:
-        print(''.join(traceback.format_exception(type(error), error, error.__traceback__)))
 
 @bot.event
 async def on_ready():
