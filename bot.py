@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 import discord
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='$')
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('$'), description='https://patreon.com/aethese', case_insensitive=True, intents=discord.Intents.all())
 token = "insert your token here"
 
 async def is_owner(ctx):
